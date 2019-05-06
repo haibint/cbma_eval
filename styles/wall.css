@@ -1,0 +1,9 @@
+.myWall{
+    color: black;
+    text-align: center;
+    border: 1px solid black;
+    background-color: grey;
+    box-sizing: border-box;
+    font-size: 12px;
+    white-space: nowrap;
+}

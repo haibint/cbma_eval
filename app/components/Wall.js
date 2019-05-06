@@ -4,12 +4,14 @@ function Wall(_name="", _pos="", _width=10, _height=10) {
     this.w = _width;
     this.h = _height;
     this.material = "";
-    this.area = this.width * this.height;
+    this.area = this.w * this.h;
 
     this.dom = createDomForWall(this.name, this.position, this.w, this.h);
     
     this.clickHandler = function(event){
-        console.log(this.name);
+        if(window.myApp){
+            window.myApp.changeCurrentWall(this);
+        }
     }
     this.dom.addEventListener('click', this.clickHandler.bind(this));
 }

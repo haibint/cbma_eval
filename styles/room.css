@@ -1,3 +1,6 @@
 .myRoom{
     background-color: bisque;
+    display: inline-block;
+    width: auto;
+    height: auto;
 }

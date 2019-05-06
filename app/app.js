@@ -5,7 +5,7 @@ var $ = function(selector){
 function App() {
     this.roomNum = 0;
     this.rooms = [];
-    this.addRoomButton = $('#addRoomButton');
+    this.sizeInputs = [];
     this.currentRoom= null;
     this.currentWall= null;
     this.editor = null;
@@ -23,7 +23,7 @@ function App() {
             this.editor = new Editor(this.currentWall)
 
             //hide button
-            this.addRoomButton.style.display = 'none'
+            $('#addRoomButton').style.display = 'none'
         }
     }
 
@@ -35,8 +35,19 @@ function App() {
         this.editor.updateEditorDom(this.currentWall)
     }
 
-    addRoomButton.addEventListener('click', this.addRoomHandler.bind(this))
+    $('#addRoomButton').addEventListener('click', this.addRoomHandler.bind(this))
 
+    this.createSizeInputs()
+}
+
+App.prototype.createSizeInputs = function() {
+    var w_input = new ControlledInput('w_input', 'text', '长：(cm)')
+    var d_input = new ControlledInput('d_input', 'text', '宽：(cm)')
+    var h_input = new ControlledInput('h_input', 'text', '高：(cm)')
+    this.sizeInputs.push(w_input, d_input, h_input)
+    $('#size-inputs').appendChild(w_input.dom)
+    $('#size-inputs').appendChild(d_input.dom)
+    $('#size-inputs').appendChild(h_input.dom)
 }
 
 var myApp = new App();

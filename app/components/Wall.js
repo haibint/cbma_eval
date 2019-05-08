@@ -5,6 +5,17 @@ function Wall(_name="", _pos="", _width=10, _height=10) {
     this.h = _height;
     this.material = "";
     this.area = this.w * this.h;
+    this.materialOptions = [{
+        name: '材料1（1分/平方米）',
+        weight: 1
+    }, {
+        name: '材料2（2分/平方米）',
+        weight: 2
+    }, {
+        name: '材料3（3分/平方米）',
+        weight: 3
+    }]
+    this.score = 0
 
     this.dom = createDomForWall(this.name, this.position, this.w, this.h);
     

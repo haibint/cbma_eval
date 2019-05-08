@@ -3,13 +3,14 @@ function ControlledInput(_name, _type='text', _placeholder='') {
     this.myValue = '';
     this.type = _type;
     this.placeholder = _placeholder;
-    this.pattern = /^\d*$/
+    this.pattern = /^(0|[1-9][0-9]*)$/
 
     this.typeHandler = function (event){
         if(this.pattern.test(this.dom.value)){ //if contains only numbers
             //update my Value
             this.myValue = this.dom.value
         } else {
+            if (this.dom.value == '') {this.myValue = ''}
             this.dom.value = this.myValue
         }
     }

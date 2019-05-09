@@ -18,9 +18,12 @@
 
         <div class="container">
             <div id="addRoomPage">
-                <div id="size-inputs"></div>
-                <button id="addRoomButton" type="button" class="btn btn-success"> + 添加新单元</button>
-                <span id="input-error"></span>
+                <button id="expandSizeInput" type="button" class="btn btn-success"> + 添加新单元</button>
+                <form id="sizeForm" class="form">
+                    <div id="size-inputs" class="input-group mb-3 mt-3"></div>
+                    <button id="addRoomButton" type="button" class="btn btn-success">创建测评</button>
+                    <span id="input-error"></span>
+                </form>
             </div>
             <div id="roomContainer"></div>
             <div id="editor"></div>

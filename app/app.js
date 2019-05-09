@@ -38,6 +38,7 @@ function App() {
             }
         }
     }
+    $('#addRoomButton').addEventListener('click', this.addRoomHandler.bind(this))
 
     //to be called back by wall click listener
     this.changeCurrentWall = function(wall) {
@@ -48,7 +49,24 @@ function App() {
         this.report.updateReport()
     }
 
-    $('#addRoomButton').addEventListener('click', this.addRoomHandler.bind(this))
+    this.inputExpanded = false
+    $('#sizeForm').style.display = 'none' //init hiding form
+    this.expandInputsHandler = function(event){
+        if(this.inputExpanded) {
+            $('#sizeForm').style.display = 'none'
+            $('#expandSizeInput').innerHTML = ' + 添加新单元'
+            $('#expandSizeInput').classList.remove('btn-danger')
+            $('#expandSizeInput').classList.add('btn-success')
+        } else {
+            $('#sizeForm').style.display = 'block'
+            $('#expandSizeInput').innerHTML = '取消'
+            $('#expandSizeInput').classList.remove('btn-success')
+            $('#expandSizeInput').classList.add('btn-danger')
+        }
+        this.inputExpanded = !this.inputExpanded
+    }
+
+    $('#expandSizeInput').addEventListener('click', this.expandInputsHandler.bind(this))
 
     this.createSizeInputs()
 }
@@ -60,9 +78,6 @@ App.prototype.createSizeInputs = function() {
     this.sizeInputs.w_input = w_input
     this.sizeInputs.d_input = d_input
     this.sizeInputs.h_input = h_input
-    $('#size-inputs').classList.add("input-group")
-    $('#size-inputs').classList.add("mb-3")
-    $('#size-inputs').classList.add("mt-3")
     $('#size-inputs').appendChild(w_input.dom)
     $('#size-inputs').appendChild(d_input.dom)
     $('#size-inputs').appendChild(h_input.dom)

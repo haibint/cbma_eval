@@ -30,6 +30,11 @@ function App() {
                 $('#addRoomPage').style.display = 'none'
             } else {
                 //size input not valid
+                $('#input-error').innerHTML= '<span style="color:red;font-size: 12px;">尺寸输入错误<span>'
+                var errorFade = setTimeout(function(){
+                    $('#input-error').innerHTML= ''
+                    clearTimeout(errorFade)
+                }, 1500)
             }
         }
     }

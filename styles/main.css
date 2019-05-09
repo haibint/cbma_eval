@@ -1,0 +1,7 @@
+#addRoomPage, #roomContainer{
+    display: block;
+}
+
+#editor, #report{
+    display: inline-block;
+}

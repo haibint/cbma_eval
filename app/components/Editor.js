@@ -1,6 +1,7 @@
-function Editor(_currentWall) {
+function Editor(_currentWall, _report) {
     this.currentWall = _currentWall;
-    this.dom = renderEditor(this.currentWall);
+    this.report = _report;
+    this.dom = renderEditor(this.currentWall, this.report);
 
     this.updateEditorDom = function (wall){
         this.dom.label.innerHTML = wall.name || ""
@@ -14,7 +15,7 @@ function Editor(_currentWall) {
     this.updateEditorDom.bind(this);
 }
 
-function renderEditor(wall) {
+function renderEditor(wall, report) {
     var dom = document.createElement('div')
     var label = document.createElement('p')
     label.innerHTML = wall.name || ""
@@ -24,7 +25,7 @@ function renderEditor(wall) {
     area.innerHTML = '面积：' + wall.area + '平方米'
     var score = document.createElement('p')
     score.innerHTML = '得分：' + wall.score
-    var material = new MaterialSelect(wall, score)
+    var material = new MaterialSelect(wall, score, report)
     dom.appendChild(label)
     dom.appendChild(size)
     dom.appendChild(area)
@@ -42,11 +43,12 @@ function renderEditor(wall) {
     return dom
 }
 
-function MaterialSelect(wall, _scoreDom) {
+function MaterialSelect(wall, _scoreDom, _report) {
     this.options = wall.materialOptions;
     this.optionDoms = null;
     this.wallEditing = wall;
     this.scoreDom = _scoreDom;
+    this.report = _report;
 
     this.renderDom = function() {
         var dom = document.createElement('select');
@@ -72,6 +74,7 @@ function MaterialSelect(wall, _scoreDom) {
         this.wallEditing.material = this.dom.value
         this.wallEditing.materialIndex = this.dom.selectedIndex
         this.wallEditing.updateScore(this.scoreDom) 
+        this.report.updateReport()
     }
     this.dom.addEventListener('change', this.selectOnChange.bind(this))
 }

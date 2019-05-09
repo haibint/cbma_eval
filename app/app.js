@@ -9,6 +9,7 @@ function App() {
     this.currentRoom= null;
     this.currentWall= null;
     this.editor = null;
+    this.report = null;
 
     this.addRoomHandler = function() {
         if (!this.currentRoom){
@@ -22,8 +23,8 @@ function App() {
                 $('#roomContainer').appendChild(this.currentRoom.dom)
                 //render editor with current room, front wall
                 this.currentWall = this.currentRoom.walls.front
-                this.editor = new Editor(this.currentWall)
-
+                this.report = new Report(this.currentRoom)
+                this.editor = new Editor(this.currentWall, this.report)
                 //hide button
                 $('#addRoomPage').style.display = 'none'
             } else {
@@ -38,6 +39,7 @@ function App() {
         wall.dom.style.backgroundColor = 'lightgrey'
         this.currentWall = wall
         this.editor.updateEditorDom(this.currentWall)
+        this.report.updateReport()
     }
 
     $('#addRoomButton').addEventListener('click', this.addRoomHandler.bind(this))

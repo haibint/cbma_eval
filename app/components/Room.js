@@ -12,7 +12,8 @@ function Room(_name, _w, _d, _h) {
     this.volume = this.w * this.d * this.h;
     this.walls = createWalls(this.w, this.d, this.h);
     this.dom = createDomForRoom(this.w, this.d, this.h, this.walls);
-    
+    this.getRoomScore = function(){return computeScore(this.walls)}
+    this.getRoomScore.bind(this)
 }
 
 function createWalls(_w, _d, _h){
@@ -34,4 +35,12 @@ function createDomForRoom(_w, _d, _h, _walls) {
         dom.appendChild(_walls[key].dom)
     })
     return dom 
+}
+
+function computeScore(_walls) {
+    var result = 0;
+    Object.keys(_walls).map(function(pos, index){
+        result += _walls[pos].score
+    })
+    return result
 }

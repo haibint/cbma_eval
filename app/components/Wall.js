@@ -15,9 +15,22 @@ function Wall(_name="", _pos="", _width=10, _height=10) {
         name: '材料3（3分/平方米）',
         weight: 3
     }]
+    this.materialIndex = -1;
     this.score = 0
 
     this.dom = createDomForWall(this.name, this.position, this.w, this.h);
+
+    this.updateScore = function(scoreDom){
+        if (this.materialIndex < 0 || this.materialIndex > this.materialOptions.length-1) {
+            scoreDom.innerHTML = '得分：0'
+            return 0
+        }
+        this.score = this.materialOptions[this.materialIndex].weight * this.area
+        this.score = this.score > 0 ? this.score : 0
+        scoreDom.innerHTML = '得分：' + this.score
+        return this.score
+    }
+    this.updateScore.bind(this)
     
     this.clickHandler = function(event){
         if(window.myApp){

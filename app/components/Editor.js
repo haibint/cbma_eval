@@ -6,8 +6,10 @@ function Editor(_currentWall) {
         this.dom.label.innerHTML = wall.name || ""
         this.dom.size.innerHTML = '尺寸：' + wall.w + ' x ' + wall.h
         this.dom.area.innerHTML = '面积：' + wall.area + '平方米'
-        this.dom.material = (new MaterialSelect(wall)).dom
-        this.dom.score.innerHTML = '得分：' + wall.score
+
+        this.dom.material.changeWall(wall) //changeWall is method of object instance rather than on dom
+        this.dom.material.dom.selectedIndex = wall.materialIndex
+        wall.updateScore(this.dom.score) //will update dom
     }
     this.updateEditorDom.bind(this);
 }
@@ -20,21 +22,19 @@ function renderEditor(wall) {
     size.innerHTML = '尺寸：' + wall.w + ' x ' + wall.h
     var area = document.createElement('p')
     area.innerHTML = '面积：' + wall.area + '平方米'
-    // var material = document.createElement('p')
-    // material.innerHTML = '材料：' + wall.material
-    var material = (new MaterialSelect(wall)).dom
     var score = document.createElement('p')
     score.innerHTML = '得分：' + wall.score
+    var material = new MaterialSelect(wall, score)
     dom.appendChild(label)
     dom.appendChild(size)
     dom.appendChild(area)
-    dom.appendChild(material)
+    dom.appendChild(material.dom)
     dom.appendChild(score)
 
     dom.label = label
     dom.size = size
     dom.area = area
-    dom.material = material
+    dom.material = material //special case, object instance is returned, rather than the dom
     dom.score = score
 
     document.querySelector('#editor').appendChild(dom)
@@ -42,10 +42,11 @@ function renderEditor(wall) {
     return dom
 }
 
-function MaterialSelect(wall) {
+function MaterialSelect(wall, _scoreDom) {
     this.options = wall.materialOptions;
     this.optionDoms = null;
-    this.currentSelected = 0;
+    this.wallEditing = wall;
+    this.scoreDom = _scoreDom;
 
     this.renderDom = function() {
         var dom = document.createElement('select');
@@ -56,8 +57,21 @@ function MaterialSelect(wall) {
         })
 
         this.optionDoms = _optionDoms
+        dom.selectedIndex = -1
         return dom
     }
     this.renderDom.bind(this);
     this.dom = this.renderDom();
+
+    this.changeWall = function(wall){
+        this.wallEditing = wall
+    }
+    this.changeWall.bind(this);
+
+    this.selectOnChange = function(event) {
+        this.wallEditing.material = this.dom.value
+        this.wallEditing.materialIndex = this.dom.selectedIndex
+        this.wallEditing.updateScore(this.scoreDom) 
+    }
+    this.dom.addEventListener('change', this.selectOnChange.bind(this))
 }

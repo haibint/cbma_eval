@@ -4,9 +4,9 @@ function Editor(_currentWall, _report) {
     this.dom = renderEditor(this.currentWall, this.report);
 
     this.updateEditorDom = function (wall){
-        this.dom.label.innerHTML = wall.name || ""
-        this.dom.size.innerHTML = '尺寸：' + wall.w + ' x ' + wall.h
-        this.dom.area.innerHTML = '面积：' + wall.area + '平方米'
+        this.dom.label.innerHTML = '<th>'+wall.name || ''+'</th>'
+        this.dom.size.innerHTML = '<td>尺寸：' + wall.w + ' x ' + wall.h + '</td>'
+        this.dom.area.innerHTML = '<td>面积：' + wall.area + '平方米</td>'
 
         this.dom.material.changeWall(wall) //changeWall is method of object instance rather than on dom
         this.dom.material.dom.selectedIndex = wall.materialIndex
@@ -16,20 +16,29 @@ function Editor(_currentWall, _report) {
 }
 
 function renderEditor(wall, report) {
-    var dom = document.createElement('div')
-    var label = document.createElement('p')
-    label.innerHTML = wall.name || ""
-    var size = document.createElement('p')
-    size.innerHTML = '尺寸：' + wall.w + ' x ' + wall.h
-    var area = document.createElement('p')
-    area.innerHTML = '面积：' + wall.area + '平方米'
-    var score = document.createElement('p')
-    score.innerHTML = '得分：' + wall.score
+    var dom = document.createElement('table')
+        dom.classList.add('table')
+        dom.classList.add('table-striped')
+    var label = document.createElement('tr')
+    label.innerHTML = '<th>'+wall.name || ''+'</th>'
+    var size = document.createElement('tr')
+    size.innerHTML = '<td>尺寸：' + wall.w + ' x ' + wall.h + '</td>'
+    var area = document.createElement('tr')
+    area.innerHTML = '<td>面积：' + wall.area + '平方米</td>'
+    var score = document.createElement('tr')
+    score.innerHTML = '<td>得分：' + wall.score + '</td>'
+    var materialTr = document.createElement('tr')
+    var materialTd = document.createElement('td')
+    var materialLabel = document.createElement('span')
+    materialLabel.innerHTML = '材料：'
     var material = new MaterialSelect(wall, score, report)
+    materialTd.appendChild(materialLabel)
+    materialTd.appendChild(material.dom)
+    materialTr.appendChild(materialTd)
     dom.appendChild(label)
     dom.appendChild(size)
     dom.appendChild(area)
-    dom.appendChild(material.dom)
+    dom.appendChild(materialTr)
     dom.appendChild(score)
 
     dom.label = label

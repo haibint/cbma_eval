@@ -23,12 +23,12 @@ function Wall(_name="", _pos="", _width=10, _height=10, _scale) {
 
     this.updateScore = function(scoreDom){
         if (this.materialIndex < 0 || this.materialIndex > this.materialOptions.length-1) {
-            scoreDom.innerHTML = '得分：0'
+            scoreDom.innerHTML = '<td>得分：0</td>'
             return 0
         }
         this.score = this.materialOptions[this.materialIndex].weight * this.area
         this.score = this.score > 0 ? this.score : 0
-        scoreDom.innerHTML = '得分：' + this.score
+        scoreDom.innerHTML = '<td>得分：' + this.score + '</td>'
         return this.score
     }
     this.updateScore.bind(this)
@@ -45,7 +45,6 @@ function createDomForWall(_name, _pos, _width, _height, _scale){
     var dom = document.createElement('div');
     dom.classList.add('myWall');
     var realSize = computeRealSizeScaleToPixel(_width, _height, _scale)
-    console.log(realSize)
     dom.style.width = realSize.w;
     dom.style.height = realSize.h;
 

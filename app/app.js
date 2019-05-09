@@ -14,9 +14,10 @@ function App() {
     this.addRoomHandler = function() {
         if (!this.currentRoom){
             //validate size inputs
-            if(this.validateSize(this.sizeInputs.w_input.myValue, this.sizeInputs.d_input.myValue, this.sizeInputs.h_input.myValue)){
+            var validResult = this.validateSize(this.sizeInputs.w_input.myValue, this.sizeInputs.d_input.myValue, this.sizeInputs.h_input.myValue)
+            if(validResult){
                 //create new room
-                this.rooms.push(new Room("Room"+this.roomNum, this.sizeInputs.w_input.myValue, this.sizeInputs.d_input.myValue, this.sizeInputs.h_input.myValue))
+                this.rooms.push(new Room("Room"+this.roomNum, validResult.w, validResult.d, validResult.h))
                 this.roomNum ++;
                 this.currentRoom = this.rooms[this.rooms.length-1]
                 //render lastest room to container
@@ -63,9 +64,14 @@ App.prototype.createSizeInputs = function() {
 }
 
 App.prototype.validateSize = function(w, d, h) {
-    //test goes here
-
-    return true
+    //coerced to number
+    w = +w;
+    d = +d;
+    h = +h;
+    if (w>0 && d>0 && h>0){
+        return {w:w, d:d, h:h}
+    } 
+    return false
 }
 
 var myApp = new App();

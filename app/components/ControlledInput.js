@@ -19,6 +19,7 @@ function ControlledInput(_name, _type='text', _placeholder='') {
     this.dom.setAttribute('name', this.name);
     this.dom.setAttribute('type', this.type);
     this.dom.setAttribute('placeholder', this.placeholder);
+    this.dom.classList.add("form-control")
 
     this.dom.addEventListener('keyup', this.typeHandler.bind(this));
 }

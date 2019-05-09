@@ -54,6 +54,9 @@ App.prototype.createSizeInputs = function() {
     this.sizeInputs.w_input = w_input
     this.sizeInputs.d_input = d_input
     this.sizeInputs.h_input = h_input
+    $('#size-inputs').classList.add("input-group")
+    $('#size-inputs').classList.add("mb-3")
+    $('#size-inputs').classList.add("mt-3")
     $('#size-inputs').appendChild(w_input.dom)
     $('#size-inputs').appendChild(d_input.dom)
     $('#size-inputs').appendChild(h_input.dom)

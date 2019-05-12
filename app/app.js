@@ -52,20 +52,27 @@ function App() {
     this.inputExpanded = false
     $('#sizeForm').style.display = 'none' //init hiding form
     this.expandInputsHandler = function(event){
-        if(this.inputExpanded) {
-            $('#sizeForm').style.display = 'none'
-            $('#expandSizeInput').innerHTML = ' + 添加新单元'
-            $('#expandSizeInput').classList.remove('btn-danger')
-            $('#expandSizeInput').classList.add('btn-success')
-        } else {
-            $('#sizeForm').style.display = 'block'
-            $('#expandSizeInput').innerHTML = '取消'
-            $('#expandSizeInput').classList.remove('btn-success')
-            $('#expandSizeInput').classList.add('btn-danger')
+        console.log(event.target.id)
+
+        // see which button is clicked, add or cancel
+        if (event.target.id === "expandSizeInput") {
+            this.inputExpanded = true;
+            $('#sizeForm').style.display = 'inline-block'
+            $('#expandSizeInput').style.display = 'none'
+            var usage_hint = document.createElement("p")
+            usage_hint.innerHTML = "请输入房间尺寸"
+            $('#sizeForm').prepend(usage_hint)
         }
-        this.inputExpanded = !this.inputExpanded
+        else {
+        // the cancel button is clicked.
+            $('#sizeForm').style.display = 'none'
+            $('#expandSizeInput').style.display = 'inline-block'
+            this.inputExpanded = false;
+        }
+
     }
 
+    $('#CancelAddRoomButton').addEventListener('click', this.expandInputsHandler.bind(this))
     $('#expandSizeInput').addEventListener('click', this.expandInputsHandler.bind(this))
 
     this.createSizeInputs()
@@ -78,6 +85,7 @@ App.prototype.createSizeInputs = function() {
     this.sizeInputs.w_input = w_input
     this.sizeInputs.d_input = d_input
     this.sizeInputs.h_input = h_input
+
     $('#size-inputs').appendChild(w_input.dom)
     $('#size-inputs').appendChild(d_input.dom)
     $('#size-inputs').appendChild(h_input.dom)

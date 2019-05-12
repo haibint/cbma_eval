@@ -14,9 +14,10 @@ function App() {
     this.addRoomHandler = function() {
         if (!this.currentRoom){
             //validate size inputs
-            if(this.validateSize(this.sizeInputs.w_input.myValue, this.sizeInputs.d_input.myValue, this.sizeInputs.h_input.myValue)){
+            var validResult = this.validateSize(this.sizeInputs.w_input.myValue, this.sizeInputs.d_input.myValue, this.sizeInputs.h_input.myValue)
+            if(validResult){
                 //create new room
-                this.rooms.push(new Room("Room"+this.roomNum, this.sizeInputs.w_input.myValue, this.sizeInputs.d_input.myValue, this.sizeInputs.h_input.myValue))
+                this.rooms.push(new Room("Room"+this.roomNum, validResult.w, validResult.d, validResult.h))
                 this.roomNum ++;
                 this.currentRoom = this.rooms[this.rooms.length-1]
                 //render lastest room to container
@@ -29,9 +30,15 @@ function App() {
                 $('#addRoomPage').style.display = 'none'
             } else {
                 //size input not valid
+                $('#input-error').innerHTML= '<span style="color:red;font-size: 12px;">尺寸输入错误<span>'
+                var errorFade = setTimeout(function(){
+                    $('#input-error').innerHTML= ''
+                    clearTimeout(errorFade)
+                }, 1500)
             }
         }
     }
+    $('#addRoomButton').addEventListener('click', this.addRoomHandler.bind(this))
 
     //to be called back by wall click listener
     this.changeCurrentWall = function(wall) {
@@ -42,7 +49,24 @@ function App() {
         this.report.updateReport()
     }
 
-    $('#addRoomButton').addEventListener('click', this.addRoomHandler.bind(this))
+    this.inputExpanded = false
+    $('#sizeForm').style.display = 'none' //init hiding form
+    this.expandInputsHandler = function(event){
+        if(this.inputExpanded) {
+            $('#sizeForm').style.display = 'none'
+            $('#expandSizeInput').innerHTML = ' + 添加新单元'
+            $('#expandSizeInput').classList.remove('btn-danger')
+            $('#expandSizeInput').classList.add('btn-success')
+        } else {
+            $('#sizeForm').style.display = 'block'
+            $('#expandSizeInput').innerHTML = '取消'
+            $('#expandSizeInput').classList.remove('btn-success')
+            $('#expandSizeInput').classList.add('btn-danger')
+        }
+        this.inputExpanded = !this.inputExpanded
+    }
+
+    $('#expandSizeInput').addEventListener('click', this.expandInputsHandler.bind(this))
 
     this.createSizeInputs()
 }
@@ -54,18 +78,20 @@ App.prototype.createSizeInputs = function() {
     this.sizeInputs.w_input = w_input
     this.sizeInputs.d_input = d_input
     this.sizeInputs.h_input = h_input
-    $('#size-inputs').classList.add("input-group")
-    $('#size-inputs').classList.add("mb-3")
-    $('#size-inputs').classList.add("mt-3")
     $('#size-inputs').appendChild(w_input.dom)
     $('#size-inputs').appendChild(d_input.dom)
     $('#size-inputs').appendChild(h_input.dom)
 }
         
 App.prototype.validateSize = function(w, d, h) {
-    //test goes here
-
-    return true
+    //coerced to number
+    w = +w;
+    d = +d;
+    h = +h;
+    if (w>0 && d>0 && h>0){
+        return {w:w, d:d, h:h}
+    } 
+    return false
 }
 
 var myApp = new App();

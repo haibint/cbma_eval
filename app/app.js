@@ -61,7 +61,7 @@ App.prototype.createSizeInputs = function() {
     $('#size-inputs').appendChild(d_input.dom)
     $('#size-inputs').appendChild(h_input.dom)
 }
-
+        
 App.prototype.validateSize = function(w, d, h) {
     //test goes here
 

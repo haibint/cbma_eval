@@ -37,6 +37,17 @@ function Wall(_name="", _pos="", _width=10, _height=10, _scale) {
         if(window.myApp){
             window.myApp.changeCurrentWall(this);
         }
+        window.document.getElementById("materialSelectPopup").style.display = "block";   
+        // create event listener for the current wall, the listener need to be remove when the popup window is closed.
+        // problem here, not able to remove the EventListener on images.
+        window.document.getElementById("materialOptionsImage").addEventListener("click", this.popup_option_change_handler.bind(this))
+        $('#popupClose').addEventListener('click', function(){ window.document.getElementById("materialOptionsImage").removeEventListener('click', this.popup_option_change_handler); window.document.getElementById("materialSelectPopup").style.display = "none"; })
+        window.onclick = function(event) {
+            if (event.target.id == "materialSelectPopup") {
+                window.document.getElementById("materialOptionsImage").removeEventListener('click', this.popup_option_change_handler)
+                window.document.getElementById("materialSelectPopup").style.display = "none";
+            }
+        }
     }
     // add a popup window so the user choose material whenever the wall is long pressed.
     var pressTimer;
@@ -66,7 +77,7 @@ function Wall(_name="", _pos="", _width=10, _height=10, _scale) {
         }
     }
 
-    this.popup_option_change_handler = function a_name(event) {
+    this.popup_option_change_handler = function (event) {
         // the if condition here is to make sure event coming in is the same as cuurent wall, because there are multiple onlick event listeners on option images.
         if (this.name === window.myApp.currentWall.name) {
             var chosen_option = event.target.id;

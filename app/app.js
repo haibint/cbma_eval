@@ -22,6 +22,10 @@ function App() {
                 this.currentRoom = this.rooms[this.rooms.length-1]
                 //render lastest room to container
                 $('#roomContainer').appendChild(this.currentRoom.dom)
+                var user_hint_div = document.createElement('div')
+                var user_hint = "<h2>房间平面图</h2><p>长按任意平面更改涂料</p>"
+                user_hint_div.innerHTML = user_hint
+                $('#roomContainer').prepend(user_hint_div)
                 //render editor with current room, front wall
                 this.currentWall = this.currentRoom.walls.front
                 this.report = new Report(this.currentRoom)
